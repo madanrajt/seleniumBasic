@@ -17,6 +17,7 @@ public class LoginTest {
         driver.findElementById("txtUsername").sendKeys("Admin");
         driver.findElementById("txtPassword").sendKeys("admin123");
         driver.findElementById("btnLogin").click();
+        System.out.println("Login successful !!!!!");
         driver.close();
 
     }
