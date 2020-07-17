@@ -1,17 +1,13 @@
 pipeline {
-   agent any
-
-   stages {
-      stage('checkout') {
-         steps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/madanrajt/seleniumBasic']]])
-         }
+  agent any
+  tools {
+    maven 'M3'
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'mvn -B -DskipTests clean package'
       }
-
-      stage('Maven installation') {
-         steps {
-             sh 'mvn clean test'
-        }
-      }
-   }
+    }
+  }
 }
