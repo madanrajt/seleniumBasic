@@ -1,11 +1,13 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class LoginTest {
 
 
-    public static void main(String[] args) throws InterruptedException {
+    @Test
+    public  void login() throws InterruptedException {
         RemoteWebDriver driver;
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
