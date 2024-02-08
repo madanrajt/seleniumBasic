@@ -28,24 +28,11 @@ pipeline {
                         includeProperties: false,
                         jdk: '',
                         properties: [],
-                        results: [[path: 'target/allure-results']]
+                        results: [[path: 'allure-results']]
                     ])
                 }
             }
-        }
-
-        stage('Email') {
-    steps {
-        script {
-        
-          subject: "pipeline result",
-                body: "The Jenkins pipeline has completed. Please check the console output for details.",
-                recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                to: 'madan231193@gmail.com',
-                attachmentsPattern: '**/allure-report/**'
-        }
-    }
-}
+           }
 
 }
   
