@@ -11,17 +11,27 @@ pipeline {
                     echo "M2_HOME = /opt/maven"
             
             }
+
+            
         }
 
         stage ('Build') {
             steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+                sh 'mvn -D clean test'
             }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
+
+             post {                
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                success { allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'target/allure-results']]
+                ])
             }
         }
     }
+}
 }
