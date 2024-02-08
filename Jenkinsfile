@@ -34,16 +34,21 @@ pipeline {
             }
         }
 
-}
-      post {
-        success {
-            emailext(
-                subject: "pipeline result",
-                body: "The Jenkins pipeline has completed. Please check the console output for details.",
-                recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                to: 'madan231193@gmail.com',
-                attachmentsPattern: '**/allure-report/**'
-            )
+        stage('Email') {
+    steps {
+        script {
+            def mailRecipients = 'madan231193@gmail.com'
+            def jobName = currentBuild.fullDisplayName
+            emailext body: '''${SCRIPT, template="groovy-html.template"}''',
+            mimeType: 'text/html',
+            subject: "[Jenkins] ${jobName}",
+            to: "${mailRecipients}",
+            replyTo: "${mailRecipients}",
+            recipientProviders: [[$class: 'CulpritsRecipientProvider']]
         }
     }
+}
+
+}
+  
 }
