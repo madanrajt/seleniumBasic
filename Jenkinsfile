@@ -19,19 +19,19 @@ pipeline {
             steps {
                 sh 'mvn -D clean test'
             }
-
-             post {                
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-                success { allure([
+    }
+        stage('reports') {
+    steps {
+    script {
+            allure([
                     includeProperties: false,
                     jdk: '',
                     properties: [],
                     reportBuildPolicy: 'ALWAYS',
                     results: [[path: 'target/allure-results']]
-                ])
-            }
-        }
+            ])
     }
+    }
+}
 }
 }
