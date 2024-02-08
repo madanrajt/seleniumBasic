@@ -37,6 +37,7 @@ pipeline {
         stage('Email') {
     steps {
         script {
+            -Dhudson.tasks.MailSender.SEND_TO_UNKNOWN_USERS=true,
           subject: "pipeline result",
                 body: "The Jenkins pipeline has completed. Please check the console output for details.",
                 recipientProviders: [[$class: 'CulpritsRecipientProvider']],
