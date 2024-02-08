@@ -5,7 +5,7 @@ pipeline {
         jdk "JDK"
     }
     stages {
-        stage ('Initialize') {
+        stage ('Initialize MAVEN') {
             steps {
                     echo "PATH = ${M2_HOME}/bin:${PATH}"
                     echo "M2_HOME = /opt/maven"
@@ -15,23 +15,19 @@ pipeline {
             
         }
 
-        stage ('Build') {
+        stage ('Build test') {
             steps {
                 sh 'mvn -D clean test'
             }
+             post {
+                always {
+                    allure includeProperties:
+                     false,
+                     jdk: '',
+                     results: [[path: 'build/allure-results']]
+                }
+            }
     }
-        stage('reports') {
-    steps {
-    script {
-            allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: 'target/allure-results']]
-            ])
-    }
-    }
-}
+
 }
 }
