@@ -30,7 +30,7 @@ pipeline {
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
                         report: 'allure-report',
-                        results: [[path: '$WORKSPACE/target/allure-results']],
+                        results: [[path: "allure-results"]],
                     ])
                 }
             }
