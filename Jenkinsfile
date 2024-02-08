@@ -15,19 +15,37 @@ pipeline {
             
         }
 
-        stage ('Build test') {
+        stage ('Run test') {
             steps {
                 sh 'mvn -D clean test'
             }
-             post {
-                always {
-                    allure includeProperties:
-                     false,
-                     jdk: '',
-                     results: [[path: 'build/allure-results']]
-                }
-            }
     }
 
+           stage('Generate Allure report') {
+            steps {
+                script {
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        report: 'allure-report',
+                        results: [[path: 'allure-results']],
+                    ])
+                }
+            }
+        }
+
 }
+      post {
+        success {
+            emailext(
+                subject: "pipeline result",
+                body: "The Jenkins pipeline has completed. Please check the console output for details.",
+                recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                to: 'madan231193@gmail.com',
+                attachmentsPattern: '**/allure-report/**'
+            )
+        }
+    }
 }
