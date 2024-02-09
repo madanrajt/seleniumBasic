@@ -29,6 +29,7 @@ pipeline {
         }
 
            stage('Generate Allure report') {
+            
             steps {
                 script {
                     allure([
@@ -40,6 +41,15 @@ pipeline {
                 }
             }
            }
+           stage('Second Mail') {
+            steps {
+                emailext   
+                    to:     'madan231193@gmail.com',
+                    from:       'cicd1993@gmail.com',
+                    subject:    "Secont Mail", 
+                    body:       "Here is the content of the second Mail"
+            }
+        } 
 
 
 }
