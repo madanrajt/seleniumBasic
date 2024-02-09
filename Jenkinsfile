@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+            EMAIL_INFORM = 'madan231193@gmail.com;madan231193@gmail.com'
+        }
     tools {
         maven "MAVEN"
         jdk "JDK"
@@ -19,13 +22,14 @@ pipeline {
             steps {
                 sh 'mvn -D clean test'
             }
-                    post {
-        failure {
-        mail to: 'madan231193@gmail.com',
-             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-             body: "Something is wrong with ${env.BUILD_URL}"
-    }
-}
+  post {
+
+            success {  
+                emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                        to: "${EMAIL_INFORM}", 
+                        subject: 'Jenkins - Released $PROJECT_NAME - #$BUILD_NUMBER'
+            }
+        }
         }
 
            stage('Generate Allure report') {
@@ -41,15 +45,6 @@ pipeline {
                 }
             }
            }
-           stage('Second Mail') {
-            steps {
-                emailext   
-                    to:     'madan231193@gmail.com',
-                    from:       'cicd1993@gmail.com',
-                    subject:    "Secont Mail", 
-                    body:       "Here is the content of the second Mail"
-            }
-        } 
 
 
 }
