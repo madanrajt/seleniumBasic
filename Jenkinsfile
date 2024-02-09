@@ -19,15 +19,6 @@ pipeline {
             steps {
                 sh 'mvn -D clean test'
             }
-            post {
-always {
-  script {
-    if (currentBuild.currentResult == 'SUCCESS') {
-      step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "madan231193@gmail.com", sendToIndividuals: true])
-    }
-  }
-}
-    }
         }
 
            stage('Generate Allure report') {
@@ -42,6 +33,14 @@ always {
                 }
             }
            }
+
+        post {
+        failure {
+        mail to: 'madan231193@gmail.com',
+             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Something is wrong with ${env.BUILD_URL}"
+    }
+}
 
 }
   
