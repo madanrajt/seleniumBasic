@@ -26,4 +26,16 @@ public class LoginTest {
         driver.close();
 
     }
+
+        @Test
+    public  void loginOne() throws InterruptedException {
+      System.out.println("Test2");
+
+    }
+
+            @Test
+    public  void loginTwo() throws InterruptedException {
+      System.out.println("Test3");
+
+    }
 }
