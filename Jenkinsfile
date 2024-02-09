@@ -19,6 +19,13 @@ pipeline {
             steps {
                 sh 'mvn -D clean test'
             }
+                    post {
+        failure {
+        mail to: 'madan231193@gmail.com',
+             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Something is wrong with ${env.BUILD_URL}"
+    }
+}
         }
 
            stage('Generate Allure report') {
@@ -34,13 +41,6 @@ pipeline {
             }
            }
 
-        post {
-        failure {
-        mail to: 'madan231193@gmail.com',
-             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-             body: "Something is wrong with ${env.BUILD_URL}"
-    }
-}
 
 }
   
