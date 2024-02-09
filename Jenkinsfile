@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    environment {
-            EMAIL_INFORM = 'madan231193@gmail.com;madan231193@gmail.com'
-        }
+
     tools {
         maven "MAVEN"
         jdk "JDK"
@@ -22,14 +20,17 @@ pipeline {
             steps {
                 sh 'mvn -D clean test'
             }
-  post {
-
-            success {  
-                emailext body: 'Check console output at $BUILD_URL to view the results.', 
-                        to: "${EMAIL_INFORM}", 
-                        subject: 'Jenkins - Released $PROJECT_NAME - #$BUILD_NUMBER'
-            }
-        }
+   post {
+        always {
+          emailext (
+            subject:'Jenkins Build Test for XUSDK', 
+            mimeType: 'text/html', 
+            to: 'madan231193@gmail.com','madan231193@gmail.com',
+            recipientProviders: [[$class: 'DevelopersRecipientProvider'],[$class: 'RequesterRecipientProvider']], 
+            body: 'Testing Jenkins sending an email message after building a job.'
+            )
+      }
+    }
         }
 
            stage('Generate Allure report') {
