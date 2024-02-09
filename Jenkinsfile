@@ -25,7 +25,7 @@ pipeline {
           emailext (
             subject:'Jenkins Build Test for XUSDK', 
             mimeType: 'text/html', 
-            to: 'madan231193@gmail.com','madan231193@gmail.com',
+            to: 'madan231193@gmail.com', madan231193@gmail.com',
             recipientProviders: [[$class: 'DevelopersRecipientProvider'],[$class: 'RequesterRecipientProvider']], 
             body: 'Testing Jenkins sending an email message after building a job.'
             )
